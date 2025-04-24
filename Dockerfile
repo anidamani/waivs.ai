@@ -5,7 +5,7 @@ FROM node:20 as build-stage
 WORKDIR /usr/app
 
 # Install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg unzip
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -16,10 +16,8 @@ RUN npm install --force
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
-# Secret should be mounted under /vertex-key/vertex-key as in your configuration
-ENV GOOGLE_APPLICATION_CREDENTIALS=/vertex-key/vertex-key
-
+# Extract ./secrets/key.zip (Password: Radius16)
+RUN unzip -P Radius16 ./secrets/key.zip -d ./secrets/
 
 # Build the React app
 RUN npm run build
