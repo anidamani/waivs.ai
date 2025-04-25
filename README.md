@@ -5,16 +5,20 @@ Waivs.ai is an AI-powered platform for healthcare professionals to manage patien
 ---
 
 ## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Setup & Getting Started](#setup--getting-started)
-- [Core Workflows](#core-workflows)
-- [Security & Compliance](#security--compliance)
-- [Contributing](#contributing)
-- [License](#license)
+- [Waivs.ai](#waivsai)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Architecture](#architecture)
+  - [Tech Stack](#tech-stack)
+  - [Project Structure](#project-structure)
+  - [Setup \& Getting Started](#setup--getting-started)
+  - [Core Workflows](#core-workflows)
+    - [Patient Session Flow](#patient-session-flow)
+    - [API Route Example](#api-route-example)
+  - [Security \& Compliance](#security--compliance)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ---
 
@@ -34,11 +38,25 @@ Waivs.ai streamlines the process of clinical documentation by enabling doctors t
 
 ```mermaid
 graph TD
-    A[Frontend (Next.js)] -->|API Calls| B[API Routes (/api)]
-    B -->|Data| C[Supabase DB]
-    B -->|AI Calls| D[Google Vertex AI / Gemini]
-    B -->|Storage| E[Supabase Storage]
+    A[Frontend: Next.js] --> B[API Routes]
     A --> F[Clerk Auth]
+    
+    %% Core Backend Services
+    B --> C[Supabase DB]
+    B --> D[AI Services]
+    B --> E[Supabase Storage]
+    
+    %% AI Components
+    D --> D1[Vertex AI: Transcription]
+    D --> D2[Gemini: Summarization]
+    
+    %% Key Processing
+    B --> B1[Audio Processing]
+    B1 --> B11[FFmpeg]
+    
+    %% Style & UI
+    A --> A1[React + TypeScript]
+    A --> A2[Tailwind + Radix UI]
 ```
 
 - **Frontend:** Built with Next.js (React), using server and client components, context providers, and modular UI components.
